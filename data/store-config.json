@@ -1,0 +1,83 @@
+{
+  "storeInfo": {
+    "name": "TOKO SERBAGUNA",
+    "tagline": "Produk & Voucher Terbaik!",
+    "whatsappNumber": "6281234567890",
+    "minPurchase": 2
+  },
+  "voucherInfo": {
+    "title": "📋 Informasi Produk",
+    "details": [
+      "Voucher berlaku 7 hari setelah pembelian",
+      "Garansi 24 jam setelah pembelian",
+      "Produk dikirim ke alamat pembeli",
+      "Harga sudah termasuk pajak"
+    ]
+  },
+  "products": [
+    {
+      "id": "1",
+      "name": "Voucher Gaming Premium",
+      "type": "voucher",
+      "price": 25000,
+      "originalPrice": 30000,
+      "image": "/placeholder.svg?height=200&width=300",
+      "description": "Voucher game premium dengan bonus eksklusif"
+    },
+    {
+      "id": "2",
+      "name": "Paket Makanan Spesial",
+      "type": "voucher",
+      "price": 45000,
+      "originalPrice": 55000,
+      "image": "/placeholder.svg?height=200&width=300",
+      "description": "Paket makanan lengkap dengan minuman"
+    },
+    {
+      "id": "3",
+      "name": "Kaos Premium",
+      "type": "physical",
+      "price": 85000,
+      "image": "/placeholder.svg?height=200&width=300",
+      "description": "Kaos berkualitas tinggi, nyaman dipakai"
+    },
+    {
+      "id": "4",
+      "name": "Voucher Belanja",
+      "type": "voucher",
+      "price": 50000,
+      "image": "/placeholder.svg?height=200&width=300",
+      "description": "Voucher belanja untuk berbagai kebutuhan"
+    },
+    {
+      "id": "5",
+      "name": "Sepatu Sneakers",
+      "type": "physical",
+      "price": 150000,
+      "originalPrice": 180000,
+      "image": "/placeholder.svg?height=200&width=300",
+      "description": "Sepatu sneakers trendy dan nyaman"
+    },
+    {
+      "id": "6",
+      "name": "Voucher Transportasi",
+      "type": "voucher",
+      "price": 35000,
+      "image": "/placeholder.svg?height=200&width=300",
+      "description": "Voucher untuk transportasi online"
+    }
+  ],
+  "formLabels": {
+    "name": "👤 Nama Pemesan:",
+    "email": "📧 Email:",
+    "phone": "📱 No. WhatsApp:",
+    "namePlaceholder": "Masukkan nama lengkap",
+    "emailPlaceholder": "contoh@email.com",
+    "phonePlaceholder": "08123456789"
+  },
+  "messages": {
+    "minPurchaseWarning": "⚠️ Minimal pembelian {min} item",
+    "checkoutButton": "KIRIM PESANAN KE WHATSAPP",
+    "orderMessage": "*PESANAN BARU*\n\n{orderDetails}\n\n*Total: {total}*\n\nNama: {name}\nEmail: {email}\nNo. HP: {phone}\n\nTerima kasih!"
+  }
+}
