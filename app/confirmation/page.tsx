@@ -74,7 +74,7 @@ export default function ConfirmationPage() {
         if (Object.keys(cart).length === 0) {
           setTimeout(() => {
             router.replace('/');
-          }, 1000);
+          }, 3000);
         }
       } catch (error) {
         console.error('Error saving cart to localStorage:', error);
