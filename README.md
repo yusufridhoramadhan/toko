@@ -23,8 +23,8 @@ Toko Serbaguna untuk menjual produk fisik dan voucher digital dengan integrasi W
 1. **Clone repository**
 
    ```bash
-   git clone <repository-url>
-   cd voucher-store
+   git clone https://github.com/arifintajul4/toko-wa.git
+   cd toko-wa
    ```
 
 2. **Install dependencies**
