@@ -7,6 +7,9 @@ import {
   MessageCircle,
   Package,
   Ticket,
+  Trash2,
+  Minus,
+  Plus,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -34,6 +37,7 @@ export default function ConfirmationPage() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   const { storeInfo, products, formLabels, messages } = storeConfig;
+  const minPurchase = storeInfo.minPurchase;
 
   // Load cart from localStorage
   useEffect(() => {
@@ -60,6 +64,24 @@ export default function ConfirmationPage() {
     setIsLoaded(true);
   }, [router]);
 
+  // Save cart to localStorage whenever cart changes
+  useEffect(() => {
+    if (isLoaded) {
+      try {
+        localStorage.setItem('cart', JSON.stringify(cart));
+
+        // If cart becomes empty, redirect to home
+        if (Object.keys(cart).length === 0) {
+          setTimeout(() => {
+            router.replace('/');
+          }, 1000);
+        }
+      } catch (error) {
+        console.error('Error saving cart to localStorage:', error);
+      }
+    }
+  }, [cart, isLoaded, router]);
+
   const totalItems = Object.values(cart).reduce((sum, qty) => sum + qty, 0);
   const totalPrice = Object.entries(cart).reduce((sum, [id, qty]) => {
     const product = products.find((p) => p.id === id);
@@ -74,9 +96,34 @@ export default function ConfirmationPage() {
     }).format(price);
   };
 
+  const updateQuantity = (productId: string, newQuantity: number) => {
+    setCart((prev) => {
+      const newCart = { ...prev };
+      if (newQuantity <= 0) {
+        delete newCart[productId];
+      } else {
+        newCart[productId] = newQuantity;
+      }
+      return newCart;
+    });
+  };
+
+  const removeItem = (productId: string) => {
+    setCart((prev) => {
+      const newCart = { ...prev };
+      delete newCart[productId];
+      return newCart;
+    });
+  };
+
   const sendToWhatsApp = () => {
     if (!name || !email || !phone) {
       alert('Mohon lengkapi semua data yang diperlukan');
+      return;
+    }
+
+    if (totalItems < minPurchase) {
+      alert(`Minimal pembelian ${minPurchase} item`);
       return;
     }
 
@@ -130,7 +177,7 @@ export default function ConfirmationPage() {
             <ShoppingBag className="w-16 h-16 mx-auto mb-4 text-gray-400" />
             <h2 className="text-xl font-bold mb-2">Keranjang Kosong</h2>
             <p className="text-gray-600 mb-4">
-              Silakan pilih produk terlebih dahulu
+              Semua item telah dihapus. Kembali untuk berbelanja lagi.
             </p>
             <Button
               onClick={goBack}
@@ -177,6 +224,9 @@ export default function ConfirmationPage() {
             <CardTitle className="flex items-center gap-2">
               <ShoppingBag className="w-5 h-5 text-emerald-600" />
               Ringkasan Pesanan
+              <Badge variant="secondary" className="ml-auto">
+                {totalItems} item
+              </Badge>
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -187,7 +237,7 @@ export default function ConfirmationPage() {
               return (
                 <div
                   key={id}
-                  className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"
+                  className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border"
                 >
                   <img
                     src={product.image || '/placeholder.svg'}
@@ -204,10 +254,40 @@ export default function ConfirmationPage() {
                       )}
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-xs text-gray-600">Qty: {qty}</span>
-                      <span className="font-bold text-sm text-emerald-700">
-                        {formatPrice(product.price * qty)}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => updateQuantity(id, qty - 1)}
+                          className="w-6 h-6 p-0"
+                        >
+                          <Minus className="w-3 h-3" />
+                        </Button>
+                        <span className="text-sm font-medium w-8 text-center">
+                          {qty}
+                        </span>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => updateQuantity(id, qty + 1)}
+                          className="w-6 h-6 p-0"
+                        >
+                          <Plus className="w-3 h-3" />
+                        </Button>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-sm text-emerald-700">
+                          {formatPrice(product.price * qty)}
+                        </span>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => removeItem(id)}
+                          className="w-6 h-6 p-0 text-red-500 hover:text-red-700 hover:bg-red-50"
+                        >
+                          <Trash2 className="w-3 h-3" />
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -228,8 +308,16 @@ export default function ConfirmationPage() {
           </CardContent>
         </Card>
 
+        {/* Minimum Purchase Warning */}
+        {totalItems < minPurchase && (
+          <div className="bg-amber-500 text-white p-3 rounded-lg mb-6 text-center font-medium">
+            ⚠️ Minimal pembelian {minPurchase} item. Tambah{' '}
+            {minPurchase - totalItems} item lagi atau kembali ke halaman utama.
+          </div>
+        )}
+
         {/* Customer Information Form */}
-        <Card className="mb-12 bg-white/95 backdrop-blur-sm">
+        <Card className="mb-10 bg-white/95 backdrop-blur-sm">
           <CardHeader>
             <CardTitle>📝 Data Pemesan</CardTitle>
           </CardHeader>
@@ -289,23 +377,33 @@ export default function ConfirmationPage() {
               </div>
               <div className="text-sm text-gray-600">{totalItems} item</div>
             </div>
-            <Badge variant="secondary" className="text-sm">
-              Siap Checkout
-            </Badge>
+            <div className="text-right">
+              {totalItems < minPurchase ? (
+                <Badge variant="destructive" className="text-xs">
+                  Kurang {minPurchase - totalItems} item
+                </Badge>
+              ) : (
+                <Badge variant="secondary" className="text-sm">
+                  Siap Checkout
+                </Badge>
+              )}
+            </div>
           </div>
 
           <Button
             onClick={sendToWhatsApp}
-            disabled={!name || !email || !phone}
+            disabled={!name || !email || !phone || totalItems < minPurchase}
             className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 text-lg font-medium rounded-lg disabled:bg-gray-400"
           >
             <MessageCircle className="w-5 h-5 mr-2" />
             {messages.checkoutButton}
           </Button>
 
-          {(!name || !email || !phone) && (
+          {(!name || !email || !phone || totalItems < minPurchase) && (
             <p className="text-xs text-gray-500 text-center mt-2">
-              Lengkapi semua data untuk melanjutkan
+              {totalItems < minPurchase
+                ? `Tambah ${minPurchase - totalItems} item lagi untuk checkout`
+                : 'Lengkapi semua data untuk melanjutkan'}
             </p>
           )}
         </div>
