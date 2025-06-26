@@ -13,6 +13,7 @@ export default function VoucherStore() {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [name, setName] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const { storeInfo, voucherInfo, products, formLabels, messages } =
     storeConfig;
@@ -77,6 +78,10 @@ export default function VoucherStore() {
     }?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
+
+  const newdata = products.filter((product) =>
+    product.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-600 via-green-500 to-emerald-500">
@@ -144,9 +149,20 @@ export default function VoucherStore() {
           </div>
         )}
 
+        {/* search input */}
+        <div className="mb-4">
+          <Input
+            type="text"
+            placeholder={'Cari produk...'}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full"
+          />
+        </div>
+
         {/* Products Grid */}
         <div className="grid grid-cols-2 gap-4 mb-6">
-          {products.map((product) => (
+          {newdata.map((product) => (
             <Card
               key={product.id}
               className="bg-white rounded-xl overflow-hidden shadow-lg"
@@ -210,6 +226,13 @@ export default function VoucherStore() {
             </Card>
           ))}
         </div>
+
+        {/* empty data */}
+        {newdata.length === 0 && (
+          <div className="text-center text-gray-500 pb-10">
+            Tidak ada produk yang ditemukan
+          </div>
+        )}
 
         {/* Contact Information */}
         <Card className="mb-6 bg-white rounded-xl">
