@@ -174,11 +174,11 @@ export default function VoucherStore() {
                   className="w-full h-32 object-cover"
                 />
 
-                {product.type === 'voucher' && (
+                {product?.type ? (
                   <Badge className="absolute top-2 left-2 bg-blue-500">
-                    Voucher
+                    {product.type}
                   </Badge>
-                )}
+                ) : null}
               </div>
               <CardContent className="p-3">
                 <h3 className="font-semibold text-sm mb-1 line-clamp-2">
