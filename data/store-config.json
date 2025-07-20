@@ -1,28 +1,27 @@
 {
   "storeInfo": {
-    "name": "TOKO SERBAGUNA",
-    "tagline": "Produk & Voucher Terbaik!",
-    "whatsappNumber": "6285338939606",
-    "minPurchase": 2
+    "name": "SUKI PREMIUM",
+    "tagline": "APLIKASI PREMIUM TERBAIK",
+    "whatsappNumber": "6285959434367",
+    "minPurchase": 1
   },
   "voucherInfo": {
     "title": "📋 Informasi Produk",
     "details": [
-      "Voucher berlaku 7 hari setelah pembelian",
-      "Garansi 24 jam setelah pembelian",
-      "Produk dikirim ke alamat pembeli",
+      "Garansi sesuai dengan produk yang dibeli",
+      "Produk dikirim ke email dan WhatsApp pembeli",
       "Harga sudah termasuk pajak"
     ]
   },
   "products": [
     {
       "id": "1",
-      "name": "Voucher Gaming Premium",
-      "type": "voucher",
-      "price": 25000,
-      "originalPrice": 30000,
-      "image": "/placeholder.svg?height=200&width=300",
-      "description": "Voucher game premium dengan bonus eksklusif"
+      "name": "CHATGPT PLUS VIA INVITE",
+      "type": "Digital",
+      "price": 30000,
+      "originalPrice": 50000,
+      "image": "/image/chatgpt-plus.jpg", // Pastikan path ini sudah benar
+      "description": "Dapatkan akses ChatGPT Plus  melalui undangan, Full Garansi."
     },
     {
       "id": "2",
