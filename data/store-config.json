@@ -20,7 +20,7 @@
       "type": "Digital",
       "price": 30000,
       "originalPrice": 50000,
-      "image": "/image/chatgpt-plus.jpg", // Pastikan path ini sudah benar
+      "image": "/image/chatgpt-plus.jpg",
       "description": "Dapatkan akses ChatGPT Plus  melalui undangan, Full Garansi."
     },
     {
